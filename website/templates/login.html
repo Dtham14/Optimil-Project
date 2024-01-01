@@ -1,0 +1,27 @@
+{% extends "base.html" %} {% block title %}Login{% endblock %} {% block content
+%}
+<form method="POST">
+    <style>
+        .image-container {
+          text-align: center; /* Center content horizontally */
+          padding: 20px; /* Add padding around the image */
+          width: 10%;
+          height: auto;
+        }
+    </style>
+    <div class="image-container">
+        <img src="/static/optimil-Machinery-Inc-2.png" alt="Optimil Image" width="900" height="200">
+    </div>
+    <h3 align="center">Login</h3>
+    <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" id="username" name="username" placeholder="Enter Email" />
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" />
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Login</button>
+</form>
+{% endblock %}
