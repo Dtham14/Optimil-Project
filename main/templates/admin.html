@@ -1,0 +1,129 @@
+{% extends "base.html" %} {% block title %}Admin Portal{% endblock %} {% block
+content %}
+<form method="POST" autocomplete = "off">
+    <style>
+        .image-container {
+          text-align: center; /* Center content horizontally */
+          padding: 20px; /* Add padding around the image */
+          width: 10%;
+          height: auto;
+        .container 
+            display: flex; 
+            justify-content: space-between; 
+        }
+    </style>
+    <div class="image-container">
+        <img src="/static/optimil-Machinery-Inc-2.png" alt="Optimil Image" width="900" height="200">
+    </div>
+    <br />
+    <h3 align="center">Employee Sign Up</h3>
+    <br /><br />
+    <form>
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" name="username" placeholder="Register Username" />
+        </div>
+        <div class="form-group col-md-4">
+            <label for="full_name">Full Name</label>
+            <input type="text" class="form-control" id="full_name" name="full_name" placeholder="Register full name" />
+        </div>
+        <div class="form-group col-md-4">
+            <label for="employee_num">Employee Number</label>
+            <input type="text" class="form-control" id="employee_num" name="employee_num" placeholder="Register employee number" />
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="password1">Password</label>
+            <input type="password" class="form-control" id="password1" name="password1" placeholder="Register password" />
+        </div>
+        <div class="form-group col-md-6">
+            <label for="password2">Password (Confirm)</label>
+            <input type="password" class="form-control" id="password2" name="password2" placeholder="Confirm password" />
+        </div>
+    </div>
+        <button type="submit" class="btn btn-primary" value="Submit Info" name="submit">Submit</button>
+        <br />
+        <br />
+        <br />
+        <h3 align="center">Modify Information</h3>
+        <br /><br />
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="insert_m">Insert M#</label>
+                <input type="text" class="form-control" id="insert_m" name="insert_m" placeholder="Insert M# to database" /><br />
+                <input class="btn btn-primary" type="submit" value="Submit M#" name="submit_m" />
+            </div>
+            <div class="form-group col-md-6">
+                <label for="delete_m">Delete M#</label>
+                <input type="text" class="form-control" id="delete_mnum" name="delete_mnum" placeholder="Delete M# from database" /><br />
+                <input class="btn btn-primary" type="submit" value="Delete M#" name="delete_m" />
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="insert_work_center">Insert Work Center</label>
+                <input type="text" class="form-control" id="insert_work_center" name="insert_work_center" placeholder="Insert Work Center to database" /><br />
+                <input class="btn btn-primary" type="submit" value="Submit Work Center" name="submit_work_center" />
+            </div>
+            <div class="form-group col-md-6">
+                <label for="delete_work_center_form">Delete Work Center</label>
+                <input type="text" class="form-control" id="delete_work_center_form" name="delete_work_center_form" placeholder="Delete Work Center from database" /><br />
+                <input class="btn btn-primary" type="submit" value="Delete Work Center" name="delete_work_center" />
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="insert_npc">Insert NPC</label>
+                <input type="text" class="form-control" id="insert_npc" name="insert_npc" placeholder="Insert NPC to database" /><br />
+                <input class="btn btn-primary" type="submit" value="Submit NPC" name="submit_npc" />
+            </div>
+            <div class="form-group col-md-6">
+                <label for="delete_npc">Delete NPC</label>
+                <input type="text" class="form-control" id="delete_npc_form" name="delete_npc_form" placeholder="Delete NPC from database" /><br />
+                <input class="btn btn-primary" type="submit" value="Delete NPC" name="delete_npc" />
+            </div>
+        </div>
+        <br />
+        <h3 align="center">Delete Users</h3>
+        <br />
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="delete_user">Delete Users</label>
+                <div class="input-group">
+                    <select name="search_filter" class = "form-control", id="user" name="user">
+                        {% for user in username_list %}
+                            <li>
+                                <option value="{{user}}" >{{user}}</option>
+                            </li>    
+                                <li class="divider"></li>
+                        {% endfor %}
+                        </select>
+                    </div>
+                    <br/>
+                <input class="btn btn-primary" type="submit" value="Delete User" name="submit_delete_user" />
+            </div>
+        </div>
+
+        <br />
+        <h3 align="center">Download CSVs</h3>
+        <br />
+
+        <input class="btn btn-primary" type="submit" value="Download Master Sheet" name="mastersheet"/>
+        <input class="btn btn-primary" type="submit" value="Download Users" name="users"/>
+        <input class="btn btn-primary" type="submit" value="Download M#s" name="m#"/>
+        <input class="btn btn-primary" type="submit" value="Download Work Centers" name="workcenter"/>
+        <input class="btn btn-primary" type="submit" value="Download NPCs" name="npc"/>
+        <br />
+        <br />
+        <h3 align="center">Download Labour Hours</h3>
+        <br />
+        <input class="btn btn-primary" type="submit" value="Download Labour Import Hours" name="labourhours"/>
+        <input class="btn btn-primary" type="submit" value="Download Timesheet" name="timesheet"/>
+
+    </div>
+    </form>
+
+</form>
+{% endblock %}
