@@ -7,8 +7,20 @@ from sqlalchemy.sql import select, delete
 import pandas as pd
 import csv
 from . import resource_path
+import psutil
 
 auth = Blueprint('auth', __name__)
+
+def is_csv_opened_in_excel(csv_file):
+    for proc in psutil.process_iter():
+        try:
+            if "EXCEL.EXE" in proc.name():
+                for file in proc.open_files():
+                    if csv_file.lower() in file.path.lower():
+                        return True
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+            pass
+    return False
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -300,6 +312,12 @@ def admin_portal():
         elif request.form.get('labourhours') == 'Download Labour Import Hours':
         
             # you can ask input for date for when to get timesheet
+            csv_file_path = "LabourImportHours.csv"
+            if is_csv_opened_in_excel(csv_file_path):
+                flash('Labour Hours Sheet is already opened', category='error')
+                return render_template("admin.html", user=current_user, username_list=username_list)
+            else:
+                pass
             
             # query 
             labourhours_stmt = select(db.column('project_num'), db.column('project_num'), db.column('date'), db.column('work_center'), db.column('work_center_rate'), db.column('employee_num'), db.column('machine'), db.column('hours_allocated'), db.column('part_num'), db.column('npc')).select_from(UserLog)
@@ -312,10 +330,16 @@ def admin_portal():
             flash('Labour Hours Sheet', category='success')
             return render_template("admin.html", user=current_user, username_list=username_list)
 
+        # Time in/out and total hours 
         elif request.form.get('timesheet') == 'Download Timesheet':
         
-            print("Asdasd")
             # you can ask input for date for when to get timesheet
+            csv_file_path = "timesheet.csv"
+            if is_csv_opened_in_excel(csv_file_path):
+                flash('Timesheet is already opened', category='error')
+                return render_template("admin.html", user=current_user, username_list=username_list)
+            else:
+                pass
             
             # query 
             timesheet_stmt = select(db.column('employee_num'), db.column('clock_in_time'), db.column('clock_out_time'), db.column('hours_clocked')).select_from(UserLog)
@@ -331,6 +355,13 @@ def admin_portal():
         
             # you can ask input for date for when to get timesheet
             
+            csv_file_path = "mnum.csv"
+            if is_csv_opened_in_excel(csv_file_path):
+                flash('M Number Sheet is already opened', category='error')
+                return render_template("admin.html", user=current_user, username_list=username_list)
+            else:
+                pass
+            
             # query 
             m_num_stmt = select('*').select_from(MNumber)
             result = db.session.execute(m_num_stmt).fetchall()
@@ -344,6 +375,13 @@ def admin_portal():
         
             # you can ask input for date for when to get timesheet
             
+            csv_file_path = "workcenter.csv"
+            if is_csv_opened_in_excel(csv_file_path):
+                flash('Work Center Sheet is already opened', category='error')
+                return render_template("admin.html", user=current_user, username_list=username_list)
+            else:
+                pass
+            
             # query 
             workcenter_stmt = select('*').select_from(WorkCenter)
             result = db.session.execute(workcenter_stmt).fetchall()
@@ -355,6 +393,13 @@ def admin_portal():
         elif request.form.get('npc') == 'Download NPCs':
         
             # you can ask input for date for when to get timesheet
+            
+            csv_file_path = "npc.csv"
+            if is_csv_opened_in_excel(csv_file_path):
+                flash('NPC sheet is already opened', category='error')
+                return render_template("admin.html", user=current_user, username_list=username_list)
+            else:
+                pass
             
             # query 
             npc_stmt = select('*').select_from(NPC)
@@ -368,6 +413,13 @@ def admin_portal():
         
             # you can ask input for date for when to get timesheet
             
+            csv_file_path = "mastersheet.csv"
+            if is_csv_opened_in_excel(csv_file_path):
+                flash('Mastersheet is already opened', category='error')
+                return render_template("admin.html", user=current_user, username_list=username_list)
+            else:
+                pass
+            
             # query 
             master_stmt = select('*').select_from(UserLog)
             result = db.session.execute(master_stmt).fetchall()
@@ -379,6 +431,13 @@ def admin_portal():
         elif request.form.get('users') == 'Download Users':
         
             # you can ask input for date for when to get timesheet
+            
+            csv_file_path = "users.csv"
+            if is_csv_opened_in_excel(csv_file_path):
+                flash('Users Sheet is already opened', category='error')
+                return render_template("admin.html", user=current_user, username_list=username_list)
+            else:
+                pass
             
             # query 
             user_stmt = select('*').select_from(User)
