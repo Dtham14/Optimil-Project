@@ -8,6 +8,8 @@ import pandas as pd
 import csv
 from . import resource_path
 import psutil
+from .generate_barcode import generate_bcode
+from .scanner_logic import scan_in, scan_out
 
 auth = Blueprint('auth', __name__)
 
@@ -22,7 +24,7 @@ def is_csv_opened_in_excel(csv_file):
             pass
     return False
 
-@auth.route('/login', methods=['GET', 'POST'])
+@auth.route('/', methods=['GET', 'POST'])
 def login():
     
     
@@ -60,12 +62,33 @@ def login():
 
     return render_template("login.html", user=current_user)    
 
-
 @auth.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('auth.login'))
+
+@auth.route('/clock-in-out', methods=['GET','POST'])
+def clock_in_out():
+     # Use scanner to scan username to clock in and out people
+        
+    # input field for clock in and submit button
+    # input field for clock out and submit button
+    if request.method == 'POST':
+        
+        if request.form.get('submit_clock_in') == 'Clock In':
+            
+            username = request.form.get('insert_user_in')
+            scan_in(username)
+        
+        elif request.form.get('submit_clock_out') == 'Clock Out':
+            
+            username = request.form.get('insert_user_out')
+            scan_out(username)
+        
+
+    return render_template("clock_in_out.html", user=current_user)
+    
 
 @auth.route('/admin', methods=['GET', 'POST'])
 @login_required
@@ -151,10 +174,12 @@ def admin_portal():
                 db.session.add(new_user_log)
                 db.session.commit()
                 
+                generate_bcode(employee_num)
+                
                 flash('Account created!', category='success')
                 return render_template("admin.html", user=current_user, username_list=username_list)
         
-        # 
+        # submit m#
         elif request.form.get('submit_m') == 'Submit M#':
         
             # query 
@@ -325,7 +350,7 @@ def admin_portal():
             df = pd.DataFrame(result)
             df.columns = ['EMPTY', 'JOB', 'Entry Date', 'WorkCenter', 'Work Center Rate', 'Employee', 'Machine', 'Runtime', 'Operation', 'NPC']
             df['EMPTY'] = " "
-            df.to_csv('LabourImportHours.csv', index = False)
+            df.to_csv('./csv_files/LabourImportHours.csv', index = False)
             
             flash('Labour Hours Sheet', category='success')
             return render_template("admin.html", user=current_user, username_list=username_list)
@@ -346,7 +371,7 @@ def admin_portal():
             result = db.session.execute(timesheet_stmt).fetchall()
             df = pd.DataFrame(result)
             df.columns = ['Employee', 'Time In', 'Time Out', 'Total Hours']
-            df.to_csv('timesheet.csv', index = False)
+            df.to_csv('./csv_files/timesheet.csv', index = False)
             
             flash('Dowloading Timesheet', category='success')
             return render_template("admin.html", user=current_user, username_list=username_list)
@@ -366,7 +391,7 @@ def admin_portal():
             m_num_stmt = select('*').select_from(MNumber)
             result = db.session.execute(m_num_stmt).fetchall()
             df = pd.DataFrame(result)
-            df.to_csv('mnum.csv', index = False)
+            df.to_csv('./csv_files/mnum.csv', index = False)
             
             flash('Dowloading M#s', category='success')
             return render_template("admin.html", user=current_user, username_list=username_list)
@@ -386,7 +411,7 @@ def admin_portal():
             workcenter_stmt = select('*').select_from(WorkCenter)
             result = db.session.execute(workcenter_stmt).fetchall()
             df = pd.DataFrame(result)
-            df.to_csv('workcenter.csv', index = False)
+            df.to_csv('./csv_files/workcenter.csv', index = False)
             flash('Dowloading Work Centers', category='success')
             return render_template("admin.html", user=current_user, username_list=username_list)
         
@@ -405,7 +430,7 @@ def admin_portal():
             npc_stmt = select('*').select_from(NPC)
             result = db.session.execute(npc_stmt).fetchall()
             df = pd.DataFrame(result)
-            df.to_csv('npc.csv', index = False)
+            df.to_csv('./csv_files/npc.csv', index = False)
             flash('Dowloading NPCs', category='success')
             return render_template("admin.html", user=current_user, username_list=username_list)
         
@@ -424,7 +449,7 @@ def admin_portal():
             master_stmt = select('*').select_from(UserLog)
             result = db.session.execute(master_stmt).fetchall()
             df = pd.DataFrame(result)
-            df.to_csv('mastersheet.csv', index = False)
+            df.to_csv('./csv_files/mastersheet.csv', index = False)
             flash('Dowloading Master Sheet', category='success')
             return render_template("admin.html", user=current_user, username_list=username_list)
         
@@ -443,7 +468,7 @@ def admin_portal():
             user_stmt = select('*').select_from(User)
             result = db.session.execute(user_stmt).fetchall()
             df = pd.DataFrame(result)
-            df.to_csv('users.csv', index = False)
+            df.to_csv('./csv_files/users.csv', index = False)
             flash('Dowloading Users', category='success')
             return render_template("admin.html", user=current_user, username_list=username_list)
             

@@ -62,9 +62,6 @@ def employee_portal():
             for row in result_check_date_stmt:
                 result_date = row[0]
             
-            print(result_date)
-            print(current_date)
-            
             # checks for no prior clock in
             if result_date == "":
 
@@ -149,7 +146,7 @@ def employee_portal():
                 flash('You already been clocked in.', category='error')
                 return render_template("employee.html", user=current_user, Mnum_list=Mnum_list, wc_list = wc_list, npc_list = npc_list)
             
-            flash('You have not been cloczzzzked in ', category='error')
+            flash('You have not been clocked in ', category='error')
             return render_template("employee.html", user=current_user, Mnum_list=Mnum_list, wc_list = wc_list, npc_list = npc_list)
         
         # Submitting M# and Tasks 
@@ -165,7 +162,7 @@ def employee_portal():
             
             # Can't resubmit info when clocked out    
             if result_check_clock_out != "":
-                flash('You already clocked out!?', category='error')
+                flash('You already clocked out!', category='error')
                 return render_template("employee.html", user=current_user, Mnum_list=Mnum_list, wc_list = wc_list, npc_list = npc_list)
             
             

@@ -1,0 +1,42 @@
+{% extends "base.html" %} {% block title %}Clocking in and Out Users{% endblock %} {% block
+    content %}
+    <form method="POST" autocomplete = "off">
+        <style>
+            .image-container {
+              text-align: center; /* Center content horizontally */
+              padding: 20px; /* Add padding around the image */
+              width: auto;
+              height: auto;
+              max-width: 100%; 
+              max-height: 100%;
+            .container 
+                display: flex; 
+                justify-content: space-between; 
+            }
+        </style>
+        <div class="image-container">
+            <img src="/static/optimil-Machinery-Inc-2.png" alt="Optimil Image" style="width:100%">
+        </div>
+        <form>
+            <br />
+            <br />
+            <br />
+            <h3 align="center">Clock In and Out Users</h3>
+            <br /><br />
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="submit_clock_in">Scan User Barcode</label>
+                    <input type="text" class="form-control" id="insert_user_in" name="insert_user_in" placeholder="" /><br />
+                    <input class="btn btn-primary" type="submit" value="Clock In" name="submit_clock_in" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="submit_clock_out">Scan User Barcode</label>
+                    <input type="text" class="form-control" id="insert_user_out" name="insert_user_out" placeholder="" /><br />
+                    <input class="btn btn-primary" type="submit" value="Clock Out" name="submit_clock_out" />
+                </div>
+            </div>
+            <br />
+            <br />
+            <br />
+
+            {% endblock %}
