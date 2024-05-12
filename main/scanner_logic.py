@@ -13,7 +13,7 @@ def scan_in(employee_num):
     
     enum_res = ""
     # check whether employee num in db
-    check_enum = select(UserLog.employee_num).where(UserLog.employee_num == employee_num)
+    check_enum = select(User.employee_num).where(User.employee_num == employee_num)
     result_check_enum_stmt = db.session.execute(check_enum).fetchall()
     for e_row in result_check_enum_stmt:
         enum_res = e_row[0]
@@ -38,12 +38,12 @@ def scan_in(employee_num):
     # checks for no prior clock in
     if result_date == "":
 
-        full_name_val =  select(UserLog.full_name).where(UserLog.employee_num == employee_num)
+        full_name_val =  select(User.full_name).where(User.employee_num == employee_num)
         full_name_res = db.session.execute(full_name_val).fetchall()
         for rowa in full_name_res:
             full_name_result = rowa[0]
         
-        employee_num_val =  select(UserLog.employee_num).where(UserLog.employee_num == employee_num)
+        employee_num_val =  select(User.employee_num).where(User.employee_num == employee_num)
         employee_num_res = db.session.execute(employee_num_val).fetchall()
         for rowb in employee_num_res:
             employee_num_result = rowb[0]

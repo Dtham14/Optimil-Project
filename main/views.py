@@ -66,19 +66,13 @@ def employee_portal():
             if result_date == "":
 
                 # adds current time into row if no clock in time
-                # stmt = update(UserLog).where(UserLog.employee_num == current_user.employee_num, UserLog.date == "").values({"date": current_date, "clock_in_time": current_time_in})
-                # db.session.execute(stmt)
-                # db.session.commit()
-                
-                # print("Asdasdasddads")    
-                # flash('You have been clocked in.', category='success')
-                # return render_template("employee.html", user=current_user, Mnum_list=Mnum_list, wc_list = wc_list, npc_list = npc_list)
-                full_name_val =  select(UserLog.full_name).where(UserLog.employee_num == current_user.employee_num)
+                # changed 05-10
+                full_name_val =  select(User.full_name).where(User.employee_num == current_user.employee_num)
                 full_name_res = db.session.execute(full_name_val).fetchall()
                 for rowa in full_name_res:
                     full_name_result = rowa[0]
                 
-                employee_num_val =  select(UserLog.employee_num).where(UserLog.employee_num == current_user.employee_num)
+                employee_num_val =  select(User.employee_num).where(User.employee_num == current_user.employee_num)
                 employee_num_res = db.session.execute(employee_num_val).fetchall()
                 for rowb in employee_num_res:
                     employee_num_result = rowb[0]
@@ -97,16 +91,10 @@ def employee_portal():
                         machine = "",
                         work_center = -1,
                         work_center_rate = "")
-                print("ASdsdfdssd")
                 db.session.add(next_day_user)
                 db.session.commit()
                 flash('You have been clocked in.', category='success')
                 return render_template("employee.html", user=current_user, Mnum_list=Mnum_list, wc_list = wc_list, npc_list = npc_list)
-        
-            # updates the result date if it isn't empty to correct format
-            # result_date2 = datetime.strptime(result_date, "%Y-%m-%d %H:%M:%S")
-            # print(result_date2)
-            # result_date = result_date2.strftime("%Y-%m-%d")
                 
             # checks for a new day 
             if current_date > result_date: 
@@ -135,7 +123,6 @@ def employee_portal():
                         machine = "",
                         work_center = -1,
                         work_center_rate = "")
-                print("ASd")
                 db.session.add(next_day_user)
                 db.session.commit()
                 flash('You have been clocked in.', category='success')

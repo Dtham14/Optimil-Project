@@ -171,7 +171,7 @@ def admin_portal():
                     clock_in_time = "", clock_out_time = "", hours_clocked = 0, project_num = 0,
                     part_num = 0, hours_allocated = 0, npc = -1, machine = "", work_center = -1,  work_center_rate = "")
                 
-                db.session.add(new_user_log)
+                # db.session.add(new_user_log)
                 db.session.commit()
                 
                 generate_bcode(employee_num)
