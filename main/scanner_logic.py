@@ -99,7 +99,6 @@ def scan_in(employee_num):
                 machine = "",
                 work_center = -1,
                 work_center_rate = "")
-        print("ASd")
         db.session.add(next_day_user)
         db.session.commit()
     

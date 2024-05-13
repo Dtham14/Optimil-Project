@@ -145,7 +145,6 @@ def employee_portal():
             for row in result_check_clock_out:
                 result_check_clock_out = row[0]
                 
-            print(result_check_clock_out)
             
             # Can't resubmit info when clocked out    
             if result_check_clock_out != "":
@@ -165,8 +164,6 @@ def employee_portal():
             result_check_date_stmt = db.session.execute(check_date_stmt).fetchall()
             for row in result_check_date_stmt:
                 result_date = row[0]
-                
-            print(result_date)
             
             if result_date == "": 
                 flash('You must clock in first!', category='error')
@@ -282,7 +279,6 @@ def employee_portal():
                 stmt = update(UserLog).where(UserLog.employee_num == current_user.employee_num, UserLog.date == current_date, UserLog.clock_out_time == "").values({"clock_out_time": current_time_out})
                 db.session.execute(stmt)
                     
-                print(result_date)
                 start = result_date2
                 end = datetime.strptime(current_time_out, "%Y-%m-%d %H:%M:%S")
                 hours_clocked = end - start

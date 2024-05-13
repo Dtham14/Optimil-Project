@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for, send_file
 from .models import User, UserLog, MNumber, WorkCenter, NPC
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db   
@@ -23,6 +23,8 @@ def is_csv_opened_in_excel(csv_file):
         except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
             pass
     return False
+
+
 
 @auth.route('/', methods=['GET', 'POST'])
 def login():
@@ -166,14 +168,8 @@ def admin_portal():
                 
                 db.session.add(new_user)
                 db.session.commit()
-                
-                new_user_log = UserLog(date = "", full_name = full_name, employee_num = employee_num,
-                    clock_in_time = "", clock_out_time = "", hours_clocked = 0, project_num = 0,
-                    part_num = 0, hours_allocated = 0, npc = -1, machine = "", work_center = -1,  work_center_rate = "")
-                
-                # db.session.add(new_user_log)
-                db.session.commit()
-                
+
+                # generates barcode
                 generate_bcode(employee_num)
                 
                 flash('Account created!', category='success')
