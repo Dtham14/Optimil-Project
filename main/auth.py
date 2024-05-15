@@ -26,7 +26,7 @@ def is_csv_opened_in_excel(csv_file):
 
 
 
-@auth.route('/', methods=['GET', 'POST'])
+@auth.route('/login', methods=['GET', 'POST'])
 def login():
     
     
@@ -70,7 +70,7 @@ def logout():
     logout_user()
     return redirect(url_for('auth.login'))
 
-@auth.route('/clock-in-out', methods=['GET','POST'])
+@auth.route('/', methods=['GET','POST'])
 def clock_in_out():
      # Use scanner to scan username to clock in and out people
         
