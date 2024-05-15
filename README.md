@@ -11,6 +11,7 @@ login.
 
 ## Installation
 
+- pip install flask, flask_sqlalchemy, flask_login, pandas, python-barcode
 - Run main.py
 
 ## Features
@@ -18,4 +19,5 @@ login.
 - Ability to register new users for them to sign in
 - Record user clock in and clock out time
 - Record user tasks or project they done for the day
-- Return CSV files of the timesheet of your employees 
+- Return CSV files of the timesheet of your employees
+- Ability to clock in and out users with a barcode scanner
